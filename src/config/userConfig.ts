@@ -26,6 +26,7 @@ export const userConfig: UserConfig = {
 
   // サイト全体の基本情報設定
   site: {
+    url: "https://urakazemeguru.v-streamer.jp",
     title: "浦風めぐる Official Site",
     description:
       "クールビューティーな能天使Vtuber、浦風めぐるの公式サイトです。人間界を満喫中の彼女の活動情報をお届けします。",
