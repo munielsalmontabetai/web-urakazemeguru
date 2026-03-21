@@ -1,4 +1,4 @@
-import { Tweet } from "react-tweet";
+import { CustomTweet as Tweet } from "@/components/ui/custom/CustomTweet";
 import { userConfig } from "@/config/userConfig";
 import { extractTweetId } from "@/core/utils/tweet";
 import { SectionHeading } from "./SectionHeading";
