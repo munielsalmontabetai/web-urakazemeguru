@@ -1,0 +1,76 @@
+name: Distribute Updates to Clients
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/components/**"
+      - "src/core/**"
+      - "src/app/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "next.config.ts"
+      - "tsconfig.json"
+      - "eslint.config.mjs"
+      - "postcss.config.mjs"
+      - "components.json"
+      - "wrangler.toml"
+
+permissions:
+  contents: write
+
+env:
+  PAT: ${{ secrets.PAT }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  distribute:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # ここにクライアントのリポジトリ名を順次追加
+        repo: [site-yuzukirana, site-inukai, site-urakazemeguru]
+
+    steps:
+      - name: Checkout master template
+        uses: actions/checkout@v4
+        with:
+          # マスターのコードを「template-root」という名前のフォルダに展開する
+          path: template-root
+          persist-credentials: false
+
+      - name: Copy to client repo
+        run: |
+          GH_USER="webya-jp"
+          CLIENT_REPO="${{ matrix.repo }}"
+
+          git config --global http.postBuffer 524288000
+          git config --global --unset-all http.https://github.com/.extraheader || true
+
+          # 1. クライアントリポジトリを「client-dest」フォルダにクローン
+          git clone "https://x-access-token:${{ secrets.PAT }}@github.com/${GH_USER}/${CLIENT_REPO}.git" client-dest
+
+          # 2. 【ここが修正箇所】template-root の中身を client-dest へコピー
+          # .git、src/config/、public/ はクライアント側のリソースを上書きしないように除外します
+          rsync -a --exclude='.git/' --exclude='src/config/' --exclude='public/' template-root/ client-dest/
+
+          # 3. クライアント側で不要なものを削除
+          rm -rf client-dest/_docs/
+          rm -rf client-dest/.agent/
+          rm -rf client-dest/.github/
+
+          # 4. Git操作
+          cd client-dest
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git config user.name "Update Bot"
+          git config user.email "nihon.webya@gmail.com"
+
+          git add -A
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Update template core (cleaned)"
+            # 直接URLを指定してPATでプッシュ
+            git push "https://x-access-token:${{ secrets.PAT }}@github.com/${GH_USER}/${CLIENT_REPO}.git" main --force
+          else
+            echo "No changes to commit"
+          fi
