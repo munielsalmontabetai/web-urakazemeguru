@@ -61,7 +61,7 @@ export const userConfig: UserConfig = {
     details: {
       birthday: "11月14日",
       debut: "2024年10月29日",
-      height: "???",
+      height: "158㎝（靴底ｎ㎝含む）",
       likes: ["特撮", "万年筆インク"],
       dislikes: ["ホラー全般"],
     },
@@ -69,17 +69,17 @@ export const userConfig: UserConfig = {
     hashtags: [
       { id: "general", label: "総合", tag: "#浦風めぐる" },
       { id: "stream", label: "配信", tag: "#浦風便り" },
-      { id: "review", label: "感想", tag: "#ぱだっこ観測" },
+      { id: "review", label: "感想", tag: "#ぼだっこ観測" },
       { id: "clip", label: "切り抜き", tag: "#ムニエルの切身" },
       { id: "fanart", label: "ファンアート", tag: "#浦風のインク棚" },
     ],
     // ファンマークとファン名
-    fanName: "ぱだっこ",
+    fanName: "ぼだっこ",
     fanMark: "🌀🐟",
     // 自己紹介動画 (YouTube ID)
     introductionVideoId: "V_hhH24DWWo", // 代表的な動画
     // 表示用タグ
-    tags: ["能天使", "クールビューティー", "パスポート紛失"],
+    tags: ["能天使", "クールビューティー", ],
     // 活動履歴・実績 (タイムライン用)
     history: [
       { date: "2024.10.29", title: "YouTube初配信", category: "milestone" },
