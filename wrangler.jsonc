@@ -48,7 +48,7 @@
 	},
 	"kv_namespaces": [
 		{
-			"binding": "NEXT_CACHE_WORKERS_KV_URAKAZE",
+			"binding": "NEXT_CACHE_WORKERS_KV",
 			"id": "7e7c9e16092d4a6a8d274545ad0adb20",
 			"remote": true
 		}
