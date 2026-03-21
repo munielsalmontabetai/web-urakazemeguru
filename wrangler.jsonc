@@ -7,53 +7,72 @@
  * https://developers.cloudflare.com/workers/wrangler/configuration/
  */
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "web-urakazemeguru",
-	"main": ".open-next/worker.js",
-	"compatibility_date": "2025-09-27",
-	"compatibility_flags": [
-		"nodejs_compat",
-		"global_fetch_strictly_public"
-	],
-	"assets": {
-		"binding": "ASSETS",
-		"directory": ".open-next/assets"
-	},
-	"images": {
-		// Enable image optimization
-		// see https://opennext.js.org/cloudflare/howtos/image
-		"binding": "IMAGES"
-	},
-	"services": [
-		{
-			// Self-reference service binding, the service name must match the worker name
-			// see https://opennext.js.org/cloudflare/caching
-			"binding": "WORKER_SELF_REFERENCE",
-			"service": "web-urakazemeguru"
-		}
-	],
-	"observability": {
-		"enabled": true
-	},
-	"routes": [
-		{
-			"pattern": "urakazemeguru.v-streamer.jp",
-			"custom_domain": true
-		}
-	],
-	"vars": {
-		// クライアントで扱える非機密の定数や環境変数
-		"APP_ENV": "production",
-		"NEXT_PUBLIC_SITE_URL": "urakazemeguru.v-streamer.jp"
-	},
-	"kv_namespaces": [
-		{
-			"binding": "NEXT_CACHE_WORKERS_KV",
-			"id": "7e7c9e16092d4a6a8d274545ad0adb20",
-			"remote": true
-		}
-	]
-	/**
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "web-urakazemeguru",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-09-27",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
+  "images": {
+    // Enable image optimization
+    // see https://opennext.js.org/cloudflare/howtos/image
+    "binding": "IMAGES"
+  },
+  "services": [
+    {
+      // Self-reference service binding, the service name must match the worker name
+      // see https://opennext.js.org/cloudflare/caching
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "vtuber-site-template"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "routes": [
+    {
+      "pattern": "test.v-streamer.jp",
+      "custom_domain": true
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_CACHE_WORKERS_KV",
+      "id": "d758e833083c43a4b6631f0f6b56feb2",
+      "remote": true
+    }
+  ],
+  "vars": {
+    // クライアントで扱える非機密の定数や環境変数
+    "APP_ENV": "production",
+    "NEXT_PUBLIC_SITE_URL": "https://test.v-streamer.jp"
+  },
+  "env": {
+    // 開発環境（devブランチからのデプロイ先）の設定
+    "preview": {
+      "name": "vtuber-site-template-preview",
+      "routes": [
+        {
+          "pattern": "dev.v-streamer.jp",
+          "custom_domain": true
+        }
+      ],
+      "kv_namespaces": [
+        {
+          "binding": "NEXT_CACHE_WORKERS_KV",
+          "id": "6d8290fd6a8f4a7a92bc8770c3910253" // 生成した開発用KVのIDを入れる
+        }
+      ],
+      "vars": {
+        "APP_ENV": "preview",
+        "NEXT_PUBLIC_SITE_URL": "https://dev.v-streamer.jp"
+      }
+    }
+  }
+  /**
    * Smart Placement
    * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
    */
