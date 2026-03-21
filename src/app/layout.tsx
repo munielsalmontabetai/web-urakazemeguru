@@ -41,13 +41,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: userConfig.site.title,
     description: userConfig.site.description,
-    images: ["/api/og"],
+    images: ["/images/og-image.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: userConfig.site.title,
     description: userConfig.site.description,
-    images: ["/api/og"],
+    images: ["/images/og-image.png"],
   },
 };
 
