@@ -145,7 +145,9 @@ export const userConfig: UserConfig = {
   // ファンアート（X / Twitter連携）設定
   fanarts: {
     enabled: true,
-    tweets: [],
+    tweets: [
+      "https://x.com/muniel_salmon/status/2034576442663797072",
+    ],
   },
 
   // ガイドライン（配信マナー・二次創作など）設定
