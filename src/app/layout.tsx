@@ -3,7 +3,7 @@ import {
   Kiwi_Maru,
   M_PLUS_Rounded_1c,
   Playfair_Display,
-  Noto_Serif_JP,
+  Noto_Serif_JP
 } from "next/font/google";
 import "./globals.css";
 import { userConfig } from "@/config/userConfig";
@@ -13,34 +13,35 @@ import { Footer } from "@/components/ui/custom/Footer";
 const fontIdolDesign = Kiwi_Maru({
   weight: ["400", "500"],
   preload: false,
-  variable: "--font-design",
+  variable: "--font-design"
 });
 
 const fontIdolText = M_PLUS_Rounded_1c({
   weight: ["400", "500", "700"],
   preload: false,
-  variable: "--font-text",
+  variable: "--font-text"
 });
 
 const fontElegantDesign = Playfair_Display({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-design",
+  variable: "--font-design"
 });
 
 const fontElegantText = Noto_Serif_JP({
   weight: ["400", "500", "700"],
   preload: false,
-  variable: "--font-text",
+  variable: "--font-text"
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(userConfig.site.url || "http://localhost:3000"),
   title: userConfig.site.title,
   description: userConfig.site.description,
 };
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -65,11 +66,11 @@ export default function RootLayout({
             // Next.jsのフォント変数による意図しないフォールバックを防ぐため
             // 英語フォントの後に明示的に日本語フォント（textFont.style.fontFamily）を指定します
             "--font-design": `${designFont.style.fontFamily}, ${textFont.style.fontFamily}, serif`,
-            "--font-text": `${textFont.style.fontFamily}, sans-serif`,
+            "--font-text": `${textFont.style.fontFamily}, sans-serif`
           } as React.CSSProperties
         }
       >
-        <div className="flex flex-col min-h-screen">
+        <div className="flex min-h-screen flex-col">
           <HeaderNav />
           <main className="flex-grow">{children}</main>
           <Footer />
