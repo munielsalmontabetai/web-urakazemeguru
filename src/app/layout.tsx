@@ -38,6 +38,17 @@ export const metadata: Metadata = {
   metadataBase: new URL(userConfig.site.url || "http://localhost:3000"),
   title: userConfig.site.title,
   description: userConfig.site.description,
+  openGraph: {
+    title: userConfig.site.title,
+    description: userConfig.site.description,
+    images: ["/api/og"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: userConfig.site.title,
+    description: userConfig.site.description,
+    images: ["/api/og"],
+  },
 };
 
 export default function RootLayout({
