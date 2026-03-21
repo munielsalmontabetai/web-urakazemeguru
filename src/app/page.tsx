@@ -11,6 +11,8 @@ import { LandingPageContent } from "@/components/layout/LandingPageContent";
  * メインのランディングページ。
  * サーバーコンポーネントとして、配信スケジュール情報をフェッチします。
  */
+export const revalidate = 3600;
+
 export default async function Home() {
   // 配信データをサーバーサイドで取得（ISRが適用される）
   const streamingData = await getStreamingSchedule();

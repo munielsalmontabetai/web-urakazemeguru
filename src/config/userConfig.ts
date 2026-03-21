@@ -26,6 +26,7 @@ export const userConfig: UserConfig = {
 
   // サイト全体の基本情報設定
   site: {
+    url: "https://urakazemeguru.v-streamer.jp",
     title: "浦風めぐる Official Site",
     description:
       "クールビューティーな能天使Vtuber、浦風めぐるの公式サイトです。人間界を満喫中の彼女の活動情報をお届けします。",
@@ -61,8 +62,8 @@ export const userConfig: UserConfig = {
       birthday: "11月14日",
       debut: "2024年10月29日",
       height: "???",
-      likes: ["人間界の食べ物", "ムニエル"],
-      dislikes: ["パスポート紛失"],
+      likes: ["特撮", "万年筆インク"],
+      dislikes: ["ホラー全般"],
     },
     // ハッシュタグ一覧
     hashtags: [
@@ -144,7 +145,9 @@ export const userConfig: UserConfig = {
   // ファンアート（X / Twitter連携）設定
   fanarts: {
     enabled: true,
-    tweets: [],
+    tweets: [
+      "https://x.com/muniel_salmon/status/2034576442663797072",
+    ],
   },
 
   // ガイドライン（配信マナー・二次創作など）設定
