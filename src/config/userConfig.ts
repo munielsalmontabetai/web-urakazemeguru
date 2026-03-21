@@ -62,8 +62,8 @@ export const userConfig: UserConfig = {
       birthday: "11月14日",
       debut: "2024年10月29日",
       height: "???",
-      likes: ["人間界の食べ物", "ムニエル"],
-      dislikes: ["パスポート紛失"],
+      likes: ["特撮", "万年筆インク"],
+      dislikes: ["ホラー全般"],
     },
     // ハッシュタグ一覧
     hashtags: [
