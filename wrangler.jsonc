@@ -8,7 +8,7 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "vtuber-site-template",
+  "name": "web-urakazemeguru",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-09-27",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
