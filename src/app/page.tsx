@@ -11,7 +11,6 @@ import { LandingPageContent } from "@/components/layout/LandingPageContent";
  * メインのランディングページ。
  * サーバーコンポーネントとして、配信スケジュール情報をフェッチします。
  */
-export const runtime = "edge";
 export const revalidate = 3600;
 
 export default async function Home() {

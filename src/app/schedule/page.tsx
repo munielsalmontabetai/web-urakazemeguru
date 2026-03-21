@@ -3,7 +3,6 @@ import { getStreamingSchedule } from "@/core/utils/streamingService";
 import { ScheduleTimeline } from "@/components/ui/custom/ScheduleTimeline";
 import { SectionHeading } from "@/components/ui/custom/SectionHeading";
 
-export const runtime = "edge";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
