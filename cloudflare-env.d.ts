@@ -4,7 +4,6 @@
 declare namespace Cloudflare {
 	interface PreviewEnv {
 		NEXT_INC_CACHE_KV: KVNamespace;
-		API_CACHE_KV: KVNamespace;
 		ASSETS: Fetcher;
 		APP_ENV: "preview";
 		NEXT_PUBLIC_SITE_URL: "https://dev.v-streamer.jp";
@@ -12,7 +11,6 @@ declare namespace Cloudflare {
 	}
 	interface Env {
 		NEXT_INC_CACHE_KV: KVNamespace;
-		API_CACHE_KV: KVNamespace;
 		ASSETS: Fetcher;
 		APP_ENV: "preview" | "production";
 		NEXT_PUBLIC_SITE_URL: "https://dev.v-streamer.jp" | "https://test.v-streamer.jp";

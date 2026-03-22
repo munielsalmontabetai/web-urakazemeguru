@@ -24,7 +24,7 @@ export const fetchYouTubeStreams = cache(
       return { live: [], upcoming: [], archives: [] };
     }
 
-    const KV = process.env.API_CACHE_KV;
+    const KV = process.env.NEXT_INC_CACHE_KV;
     const cacheKey = `yt_streams_${channelId}`;
 
     // 1. KVからキャッシュ取得を試みる
