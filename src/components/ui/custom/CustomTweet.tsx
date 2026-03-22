@@ -61,8 +61,10 @@ async function fetchTweet(id: string): Promise<Tweet | undefined> {
 // サーバー側で非同期にフェッチしてレンダリングする内部コンポーネント
 const TweetLoader = async ({ id }: { id: string }) => {
   const tweet = await fetchTweet(id);
-  // react-tweetの純粋なUIコンポーネントである EmbeddedTweet にデータを流し込む
-  return tweet ? <EmbeddedTweet tweet={tweet} /> : <TweetNotFound />;
+  // ツイートが削除済みや非公開の場合、APIは200を返すものの、userオブジェクトが存在しない(Tombstoneになる)ため
+  // tweet.user の存在チェックを行い、取得不能な場合は TweetNotFound コンポーネントにフォールバックします。
+  const isValidTweet = tweet != null && tweet.user != null;
+  return isValidTweet ? <EmbeddedTweet tweet={tweet} /> : <TweetNotFound />;
 };
 
 /**

@@ -9,8 +9,46 @@ import {
   faXTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { userConfig } from "@/config/userConfig";
+import { ChannelStats } from "@/core/utils/youtube";
 
-export function HeroVisual() {
+type Props = {
+  channelStats?: ChannelStats | null;
+};
+
+export function HeroVisual({ channelStats }: Props) {
+  const formatSubscribers = (num: number) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
+    }
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1).replace(/\.0$/, "") + "K";
+    }
+    return num.toString();
+  };
+
+  const formatVideos = (num: number) => {
+    if (num >= 1000) {
+      return Math.floor(num / 100) * 100 + "+";
+    }
+    if (num >= 100) {
+      return Math.floor(num / 10) * 10 + "+";
+    }
+    return num.toString();
+  };
+
+  const getYearsActive = (publishedAt: string) => {
+    const start = new Date(publishedAt);
+    const now = new Date();
+    let years = now.getFullYear() - start.getFullYear();
+    if (
+      now.getMonth() < start.getMonth() ||
+      (now.getMonth() === start.getMonth() && now.getDate() < start.getDate())
+    ) {
+      years--;
+    }
+    if (years === 0) return "< 1 YR";
+    return years === 1 ? "1 YR" : `${years} YRS`;
+  };
   return (
     <section className="relative w-full h-[100vh] md:h-screen flex items-center justify-center overflow-hidden bg-[var(--background)]">
       {/* 背景画像 (PC用) */}
@@ -63,6 +101,32 @@ export function HeroVisual() {
             <p className="mt-4 md:mt-6 text-base sm:text-xl md:text-2xl text-[var(--foreground)] opacity-95 max-w-xl drop-shadow-sm bg-[var(--background)]/70 md:bg-transparent px-6 py-3 md:p-0 rounded-full md:rounded-none backdrop-blur-md md:backdrop-blur-none border border-[var(--primary)]/30 md:border-transparent">
               {userConfig.site.description}
             </p>
+
+            {/* チャンネル統計情報 */}
+            {channelStats && userConfig.platforms.youtube.showStats && (
+              <div className="mt-6 flex flex-wrap gap-6 text-sm md:text-base text-[var(--foreground)] opacity-90 drop-shadow-sm justify-center md:justify-start bg-[var(--background)]/50 md:bg-transparent px-6 py-3 md:p-0 rounded-2xl md:rounded-none backdrop-blur-sm md:backdrop-blur-none border border-[var(--primary)]/20 md:border-transparent">
+                <div className="flex flex-col items-center md:items-start group cursor-default">
+                  <span className="text-[10px] md:text-xs tracking-wider opacity-70 mb-1">SUBSCRIBERS</span>
+                  <span className="text-xl md:text-2xl font-bold font-design text-[var(--primary)] drop-shadow-md transition-transform group-hover:scale-110">
+                    {formatSubscribers(channelStats.subscriberCount)}
+                  </span>
+                </div>
+                <div className="w-px h-10 bg-[var(--foreground)]/20 hidden md:block" />
+                <div className="flex flex-col items-center md:items-start group cursor-default">
+                  <span className="text-[10px] md:text-xs tracking-wider opacity-70 mb-1">VIDEOS</span>
+                  <span className="text-xl md:text-2xl font-bold font-design text-[var(--primary)] drop-shadow-md transition-transform group-hover:scale-110">
+                    {formatVideos(channelStats.videoCount)}
+                  </span>
+                </div>
+                <div className="w-px h-10 bg-[var(--foreground)]/20 hidden md:block" />
+                <div className="flex flex-col items-center md:items-start group cursor-default">
+                  <span className="text-[10px] md:text-xs tracking-wider opacity-70 mb-1">ACTIVE</span>
+                  <span className="text-xl md:text-2xl font-bold font-design text-[var(--primary)] drop-shadow-md transition-transform group-hover:scale-110">
+                    {getYearsActive(channelStats.publishedAt)}
+                  </span>
+                </div>
+              </div>
+            )}
 
             {/* SNS リンクアイコン群 */}
             <div className="mt-8 flex gap-6 z-40">

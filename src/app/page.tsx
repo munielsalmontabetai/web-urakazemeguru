@@ -6,6 +6,7 @@ import { Achievements } from "@/components/ui/custom/Achievements";
 import { AdditionalAchievements } from "@/components/ui/custom/AdditionalAchievements";
 import { StreamSchedule } from "@/components/ui/custom/StreamSchedule";
 import { getStreamingSchedule } from "@/core/utils/streamingService";
+import { getYouTubeChannelStats } from "@/core/utils/youtube";
 import { LandingPageContent } from "@/components/layout/LandingPageContent";
 
 /**
@@ -16,12 +17,15 @@ export const revalidate = 3600;
 
 export default async function Home() {
   // 配信データをサーバーサイドで取得（ISRが適用される）
-  const streamingData = await getStreamingSchedule();
+  const [streamingData, channelStats] = await Promise.all([
+    getStreamingSchedule(),
+    getYouTubeChannelStats(),
+  ]);
 
   return (
     <main className="relative min-h-screen">
       <LandingPageContent>
-        <HeroVisual />
+        <HeroVisual channelStats={channelStats} />
         <Introduction />
         <Links />
         <StreamSchedule initialData={streamingData} />

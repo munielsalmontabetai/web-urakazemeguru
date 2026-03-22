@@ -169,3 +169,71 @@ export const fetchYouTubeStreams = cache(
     }
   }
 );
+
+export interface ChannelStats {
+  subscriberCount: number;
+  videoCount: number;
+  publishedAt: string;
+}
+
+/**
+ * YouTube API v3 を使用してチャンネル統計情報を取得します。
+ * (登録者数、動画本数、開設日)
+ */
+export const getYouTubeChannelStats = cache(
+  async (): Promise<ChannelStats | null> => {
+    const { apiKey, channelId, showStats } = userConfig.platforms.youtube;
+
+    if (!apiKey || !channelId || !showStats) {
+      return null;
+    }
+
+    const KV = process.env.NEXT_INC_CACHE_KV;
+    const cacheKey = `yt_channel_stats_${channelId}`;
+
+    if (KV) {
+      try {
+        const cached = await KV.get<ChannelStats>(cacheKey, { type: "json" });
+        if (cached) {
+          return cached;
+        }
+      } catch (err) {
+        console.warn("[YouTube API] KV Get Error (Stats):", err);
+      }
+    }
+
+    try {
+      const res = await fetch(
+        `${YOUTUBE_API_BASE}/channels?part=statistics,snippet&id=${channelId}&key=${apiKey}`
+      );
+
+      if (!res.ok) {
+        return null;
+      }
+
+      const data = (await res.json()) as any;
+      const channel = data.items?.[0];
+
+      if (!channel) {
+        return null;
+      }
+
+      const stats: ChannelStats = {
+        subscriberCount: parseInt(channel.statistics.subscriberCount, 10) || 0,
+        videoCount: parseInt(channel.statistics.videoCount, 10) || 0,
+        publishedAt: channel.snippet.publishedAt,
+      };
+
+      if (KV) {
+        await KV.put(cacheKey, JSON.stringify(stats), {
+          expirationTtl: 3600, // 1時間キャッシュ
+        }).catch((err) => console.warn("[YouTube API] KV Put Error (Stats):", err));
+      }
+
+      return stats;
+    } catch (error) {
+      console.error("getYouTubeChannelStats error:", error);
+      return null;
+    }
+  }
+);

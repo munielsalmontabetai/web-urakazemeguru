@@ -10,6 +10,7 @@ export interface PlatformConfig {
   apiKey?: string;
   clientId?: string;
   secretId?: string;
+  showStats?: boolean;
 }
 
 export interface HistoryEvent {
