@@ -27,8 +27,9 @@ async function loadGoogleFont(family: string, text: string) {
 
 async function generate() {
   console.log("Generating OGP image from userConfig...");
-  const { profile, colors, fonts } = userConfig;
+  const { profile, colors, fonts, site } = userConfig;
   const fontFamily = fonts?.text || "sans-serif";
+  const isRight = site.heroAlignment === "right";
   const textToRender = `${profile.name}Official Site`;
   const fontData = await loadGoogleFont(fontFamily, textToRender);
 
@@ -74,12 +75,12 @@ async function generate() {
       <div
         style={{
           position: "absolute",
-          right: 0,
+          ...(isRight ? { left: 0 } : { right: 0 }),
           bottom: 0,
           display: "flex",
           width: "60%",
           height: "100%",
-          justifyContent: "flex-end",
+          justifyContent: isRight ? "flex-start" : "flex-end",
           alignItems: "flex-end",
           padding: "0 40px",
         }}
@@ -111,7 +112,9 @@ async function generate() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          paddingLeft: "100px",
+          alignItems: isRight ? "flex-end" : "flex-start",
+          paddingLeft: isRight ? "0" : "100px",
+          paddingRight: isRight ? "100px" : "0",
           width: "100%",
           height: "100%",
           zIndex: 10,
@@ -121,6 +124,7 @@ async function generate() {
           style={{
             display: "flex",
             flexDirection: "column",
+            alignItems: "flex-start",
             gap: "20px",
           }}
         >

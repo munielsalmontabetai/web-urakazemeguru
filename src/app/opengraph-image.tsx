@@ -62,18 +62,36 @@ export default async function Image() {
 
   return new ImageResponse(
     (
-      <div style={{ display: 'flex', flexDirection: isRight ? 'row-reverse' : 'row', width: '100%', height: '100%', background: userConfig.colors.background }}>
-        <div style={textContainerStyle}>
-          <h1 style={{ color: userConfig.colors.text, fontSize: '80px', margin: '0', fontWeight: 700 }}>
-            {userConfig.profile.name}
-          </h1>
-          <p style={{ color: userConfig.colors.accent || userConfig.colors.primary, fontSize: '40px', marginTop: '20px' }}>
-            Official Site
-          </p>
-        </div>
-        <div style={imageContainerStyle}>
-          {imageSrc ? <img src={imageSrc} height="630" style={{ objectFit: 'contain' }} alt="Hero" /> : null}
-        </div>
+      <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%', background: userConfig.colors.background }}>
+        {isRight ? (
+          <>
+            <div style={imageContainerStyle}>
+              {imageSrc ? <img src={imageSrc} height="630" style={{ objectFit: 'contain' }} alt="Hero" /> : null}
+            </div>
+            <div style={textContainerStyle}>
+              <h1 style={{ color: userConfig.colors.text, fontSize: '80px', margin: '0', fontWeight: 700 }}>
+                {userConfig.profile.name}
+              </h1>
+              <p style={{ color: userConfig.colors.accent || userConfig.colors.primary, fontSize: '40px', marginTop: '20px' }}>
+                Official Site
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div style={textContainerStyle}>
+              <h1 style={{ color: userConfig.colors.text, fontSize: '80px', margin: '0', fontWeight: 700 }}>
+                {userConfig.profile.name}
+              </h1>
+              <p style={{ color: userConfig.colors.accent || userConfig.colors.primary, fontSize: '40px', marginTop: '20px' }}>
+                Official Site
+              </p>
+            </div>
+            <div style={imageContainerStyle}>
+              {imageSrc ? <img src={imageSrc} height="630" style={{ objectFit: 'contain' }} alt="Hero" /> : null}
+            </div>
+          </>
+        )}
       </div>
     ),
     {
