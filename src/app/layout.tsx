@@ -3,7 +3,8 @@ import {
   Kiwi_Maru,
   M_PLUS_Rounded_1c,
   Playfair_Display,
-  Noto_Serif_JP
+  Noto_Serif_JP,
+  Fraunces
 } from "next/font/google";
 import "./globals.css";
 import { userConfig } from "@/config/userConfig";
@@ -34,6 +35,18 @@ const fontElegantText = Noto_Serif_JP({
   variable: "--font-text"
 });
 
+const fontDesignerDesign = Fraunces({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-design"
+});
+
+const fontDesignerText = Noto_Serif_JP({
+  weight: ["400", "500", "700"],
+  preload: false,
+  variable: "--font-text"
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(userConfig.site.url || "http://localhost:3000"),
   title: userConfig.site.title,
@@ -57,8 +70,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const isElegant = userConfig.site.themeStyle === "elegant";
-  const designFont = isElegant ? fontElegantDesign : fontIdolDesign;
-  const textFont = isElegant ? fontElegantText : fontIdolText;
+  const isDesigner = userConfig.site.themeStyle === "designer";
+  const designFont = isDesigner ? fontDesignerDesign : isElegant ? fontElegantDesign : fontIdolDesign;
+  const textFont = isDesigner ? fontDesignerText : isElegant ? fontElegantText : fontIdolText;
 
   return (
     <html lang="ja">

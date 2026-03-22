@@ -57,13 +57,15 @@ function LinkCard({
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay }}
-      className="group relative flex items-start gap-4 p-6 rounded-2xl bg-white border border-[var(--primary)]/10 shadow-sm hover:shadow-md hover:border-[var(--primary)]/30 transition-all duration-300"
+      className={`group relative flex ${
+        description ? "items-start" : "items-center"
+      } gap-4 p-6 rounded-2xl bg-white border border-[var(--primary)]/10 shadow-sm hover:shadow-md hover:border-[var(--primary)]/30 transition-all duration-300`}
     >
       <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-[var(--primary)]/5 text-[var(--primary)] group-hover:bg-[var(--primary)] group-hover:text-white transition-colors duration-300">
         <FontAwesomeIcon icon={iconMap[icon] || faLink} size="lg" />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1 text-[var(--foreground)] font-bold tracking-wider">
+        <div className={`flex items-center gap-2 text-[var(--foreground)] font-bold tracking-wider ${description ? "mb-1" : ""}`}>
           {label}
           <FontAwesomeIcon
             icon={faExternalLinkAlt}

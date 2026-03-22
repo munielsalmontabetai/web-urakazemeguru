@@ -94,4 +94,10 @@ export interface UserConfig {
       content: string;
     }[];
   };
+  customPages?: {
+    slug: string;
+    title: string;
+    content?: string;
+    image?: string;
+  }[];
 }
