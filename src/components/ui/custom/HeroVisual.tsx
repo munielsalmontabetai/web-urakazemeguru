@@ -48,11 +48,11 @@ export function HeroVisual() {
       {/* 背景を少し暗くして文字の視認性を高めるオーバーレイ (必要に応じて調整) */}
       <div className="absolute inset-0 z-10 pointer-events-none" />
 
-      {/* メインコンテンツコンテナ (左寄せタイトル配置用) */}
-      <div className="relative z-30 w-full h-full max-w-7xl mx-auto flex flex-col justify-center px-4 sm:px-8 md:px-12 pointer-events-none md:pointer-events-auto">
-        <div className="w-full md:w-3/5 lg:w-1/2 flex flex-col items-center md:items-start pt-20 md:pt-0 pointer-events-auto text-center md:text-left">
+      {/* メインコンテンツコンテナ */}
+      <div className={`relative z-30 w-full h-full max-w-7xl mx-auto flex flex-col justify-center px-4 sm:px-8 md:px-12 pointer-events-none md:pointer-events-auto ${userConfig.site.heroAlignment === "right" ? "md:items-end" : ""}`}>
+        <div className="w-full md:w-3/5 lg:w-1/2 flex flex-col items-center pt-20 md:pt-0 pointer-events-auto text-center md:items-start md:text-left">
           <motion.div
-            initial={{ x: -30, opacity: 0 }}
+            initial={{ x: userConfig.site.heroAlignment === "right" ? 30 : -30, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
             className="flex flex-col items-center md:items-start"

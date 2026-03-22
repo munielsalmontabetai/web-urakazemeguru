@@ -4,48 +4,41 @@ import {
   M_PLUS_Rounded_1c,
   Playfair_Display,
   Noto_Serif_JP,
-  Fraunces
+  Noto_Sans_JP,
+  Fraunces,
+  BIZ_UDGothic,
+  Roboto
 } from "next/font/google";
 import "./globals.css";
 import { userConfig } from "@/config/userConfig";
 import { HeaderNav } from "@/components/ui/custom/HeaderNav";
 import { Footer } from "@/components/ui/custom/Footer";
 
-const fontIdolDesign = Kiwi_Maru({
-  weight: ["400", "500"],
-  preload: false,
-  variable: "--font-design"
-});
+// すべての主要なフォントを初期化し、固有の変数名を付ける
+const fontKiwiMaru = Kiwi_Maru({ weight: ["400", "500"], preload: false, variable: "--font-kiwi" });
+const fontMPlus = M_PLUS_Rounded_1c({ weight: ["400", "500", "700"], preload: false, variable: "--font-mplus" });
+const fontPlayfair = Playfair_Display({ weight: ["400", "500", "600", "700"], subsets: ["latin"], variable: "--font-playfair" });
+const fontNotoSerif = Noto_Serif_JP({ weight: ["400", "500", "700"], preload: false, variable: "--font-noto-serif" });
+const fontNotoSans = Noto_Sans_JP({ weight: ["400", "500", "700"], preload: false, variable: "--font-noto-sans" });
+const fontFraunces = Fraunces({ weight: ["400", "500", "600", "700"], subsets: ["latin"], variable: "--font-fraunces" });
+const fontBizUDGothic = BIZ_UDGothic({ weight: ["400", "700"], subsets: ["latin"], variable: "--font-biz-udgothic" });
+const fontRoboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"], variable: "--font-roboto" });
 
-const fontIdolText = M_PLUS_Rounded_1c({
-  weight: ["400", "500", "700"],
-  preload: false,
-  variable: "--font-text"
-});
-
-const fontElegantDesign = Playfair_Display({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-design"
-});
-
-const fontElegantText = Noto_Serif_JP({
-  weight: ["400", "500", "700"],
-  preload: false,
-  variable: "--font-text"
-});
-
-const fontDesignerDesign = Fraunces({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-design"
-});
-
-const fontDesignerText = Noto_Serif_JP({
-  weight: ["400", "500", "700"],
-  preload: false,
-  variable: "--font-text"
-});
+// userConfigでの文字列名とフォントの紐づけ
+function getFontByName(name: string | undefined, fallback: any) {
+  if (!name) return fallback;
+  switch (name) {
+    case "Kiwi Maru": return fontKiwiMaru;
+    case "M PLUS Rounded 1c": return fontMPlus;
+    case "Playfair Display": return fontPlayfair;
+    case "Noto Serif JP": return fontNotoSerif;
+    case "Noto Sans JP": return fontNotoSans;
+    case "Fraunces": return fontFraunces;
+    case "BIZ UDGothic": return fontBizUDGothic;
+    case "Roboto": return fontRoboto;
+    default: return fallback;
+  }
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(userConfig.site.url || "http://localhost:3000"),
@@ -71,13 +64,20 @@ export default function RootLayout({
 }>) {
   const isElegant = userConfig.site.themeStyle === "elegant";
   const isDesigner = userConfig.site.themeStyle === "designer";
-  const designFont = isDesigner ? fontDesignerDesign : isElegant ? fontElegantDesign : fontIdolDesign;
-  const textFont = isDesigner ? fontDesignerText : isElegant ? fontElegantText : fontIdolText;
+  
+  // デフォルトフォールバック
+  const defaultDesignFont = isDesigner ? fontFraunces : isElegant ? fontPlayfair : fontKiwiMaru;
+  const defaultTextFont = isDesigner ? fontNotoSerif : isElegant ? fontNotoSerif : fontMPlus;
+
+  const designFont = getFontByName(userConfig.fonts?.design, defaultDesignFont);
+  const textFont = getFontByName(userConfig.fonts?.text, defaultTextFont);
+
+  const fontVariables = `${fontKiwiMaru.variable} ${fontMPlus.variable} ${fontPlayfair.variable} ${fontNotoSerif.variable} ${fontNotoSans.variable} ${fontFraunces.variable} ${fontBizUDGothic.variable} ${fontRoboto.variable}`;
 
   return (
     <html lang="ja">
       <body
-        className={`${textFont.variable} ${designFont.variable} font-text antialiased`}
+        className={`${fontVariables} font-text antialiased`}
         style={
           {
             "--primary": userConfig.colors.primary,

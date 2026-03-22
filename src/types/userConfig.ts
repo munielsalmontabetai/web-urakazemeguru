@@ -35,6 +35,7 @@ export interface UserConfig {
     title: string;
     description: string;
     themeStyle: "elegant" | "idol" | "japanese" | string;
+    heroAlignment?: "left" | "right";
   };
   colors: {
     primary: string;
@@ -70,6 +71,10 @@ export interface UserConfig {
     introductionVideoId: string;
     tags: string[];
     history: HistoryEvent[];
+    achievements?: {
+      title: string;
+      items: string[];
+    }[];
   };
   links: {
     x: string;

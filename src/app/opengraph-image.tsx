@@ -1,168 +1,78 @@
-import { ImageResponse } from "next/og";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
-import { userConfig } from "@/config/userConfig";
+import { ImageResponse } from 'next/og';
+import { userConfig } from '@/config/userConfig';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
-export const runtime = "nodejs";
-
-export const alt = `${userConfig.site.title} OGP`;
 export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const contentType = 'image/png';
+export const runtime = 'nodejs'; // Use nodejs runtime for fs module
 
-/**
- * 日本語が含まれる文字列をGoogle FontsからTTFとして取得するヘルパー
- */
-async function loadGoogleFont(family: string, text: string) {
-  const url = `https://fonts.googleapis.com/css2?family=${family.replace(/ /g, "+")}&text=${encodeURIComponent(
-    text
-  )}`;
-  const css = await (
-    await fetch(url, {
-      headers: {
-        // WOFF2ではなくTTF形式を返させるための古いUser-Agent偽装
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; de-at) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1",
-      },
-    })
-  ).text();
-
-  const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/);
-  if (!resource) return null;
-
-  const fontResponse = await fetch(resource[1]);
-  if (!fontResponse.ok) return null;
-
-  return await fontResponse.arrayBuffer();
+async function getFont(family: string, weight: number, text: string) {
+  try {
+    const API = `https://fonts.googleapis.com/css2?family=${family}:wght@${weight}&text=${encodeURIComponent(text)}`;
+    const cssRes = await fetch(API);
+    const css = await cssRes.text();
+    const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/);
+    if (resource) {
+      const response = await fetch(resource[1]);
+      if (response.status === 200) {
+        return await response.arrayBuffer();
+      }
+    }
+    return null;
+  } catch (error) {
+    console.error('Failed to load font:', error);
+    return null;
+  }
 }
 
 export default async function Image() {
-  const { profile, colors, fonts } = userConfig;
-  
-  // userConfig設定のフォントを参照
-  const fontFamily = fonts?.text || "sans-serif";
+  const isRight = userConfig.site.heroAlignment === 'right';
 
-  // OGPに描画するテキスト（すべて含めてフォントのサブセットを取得する）
-  const textToRender = `${profile.name}Official SiteOfficialSite`;
-  const fontData = await loadGoogleFont(fontFamily, textToRender);
-
-  // ローカル（public）の読み込み
-  let imageSrc = "";
+  // Load Image
+  let imageSrc = '';
   try {
-    const filePath = join(process.cwd(), "public", "images", "hero-pc.png");
-    const buffer = await readFile(filePath);
-    imageSrc = `data:image/png;base64,${buffer.toString("base64")}`;
-  } catch (error) {
-    console.error("Failed to read OGP hero image:", error);
+    const imagePath = join(process.cwd(), 'public', 'images', 'hero-pc.png');
+    const imageData = await readFile(imagePath);
+    imageSrc = `data:image/png;base64,${imageData.toString('base64')}`;
+  } catch (e) {
+    console.error('hero-pc.png failed to load', e);
   }
 
-  // レイアウトの組み立て
+  // Load Font
+  const textCharacters = userConfig.profile.name + 'Official Site';
+  let fontData = await getFont('Noto+Serif+JP', 700, textCharacters);
+
+  const textContainerStyle = {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    width: '50%',
+    justifyContent: 'center',
+    padding: '80px',
+    alignItems: 'flex-start',
+    textAlign: 'left' as const,
+  };
+
+  const imageContainerStyle = {
+    display: 'flex',
+    width: '50%',
+    justifyContent: isRight ? 'flex-start' : 'flex-end',
+    alignItems: 'flex-end',
+  };
+
   return new ImageResponse(
     (
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          height: "100%",
-          backgroundColor: colors.background, // userConfig設定に基づく
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        {/* 装飾の背景グラデーション */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: "-20%",
-            width: "60%",
-            height: "100%",
-            background: `radial-gradient(circle, ${colors.primary}33 0%, transparent 70%)`,
-          }}
-        />
-
-        {/* 右側: キャラクター画像エリア (背面に配置するため先に記述) */}
-        <div
-          style={{
-            position: "absolute",
-            right: 0,
-            bottom: 0,
-            display: "flex",
-            width: "60%", // 画像を少し大きめに確保
-            height: "100%",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
-            padding: "0 40px",
-          }}
-        >
-          {imageSrc ? (
-            <img
-              src={imageSrc}
-              style={{
-                objectFit: "contain",
-                height: "110%", // 少しはみ出させるレイアウト
-                marginBottom: "-5%", // 下部を画面外に隠す
-              }}
-            />
-          ) : (
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                backgroundColor: colors.secondary,
-                opacity: 0.1,
-              }}
-            />
-          )}
+      <div style={{ display: 'flex', flexDirection: isRight ? 'row-reverse' : 'row', width: '100%', height: '100%', background: userConfig.colors.background }}>
+        <div style={textContainerStyle}>
+          <h1 style={{ color: userConfig.colors.text, fontSize: '80px', margin: '0', fontWeight: 700 }}>
+            {userConfig.profile.name}
+          </h1>
+          <p style={{ color: userConfig.colors.accent || userConfig.colors.primary, fontSize: '40px', marginTop: '20px' }}>
+            Official Site
+          </p>
         </div>
-
-        {/* 左側: テキストエリア (前面に配置するため後に記述) */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            paddingLeft: "100px",
-            width: "100%", // 全体に広げてテキストが被っても切り取られないようにする
-            height: "100%",
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "20px",
-            }}
-          >
-            <h1
-              style={{
-                fontSize: "100px",
-                fontWeight: 700,
-                color: colors.primary, // userConfig設定
-                margin: 0,
-                lineHeight: 1.1,
-                fontFamily: fontData ? `"${fontFamily}"` : "sans-serif",
-                letterSpacing: "0.05em",
-                // 文字の周りをぼかすためのシャドウレイヤー（背景色を複数回重ねてぼんやりさせる）
-                textShadow: `0 0 20px ${colors.background}, 0 0 40px ${colors.background}, 0 0 60px ${colors.background}, 2px 2px 4px rgba(0,0,0,0.2)`,
-              }}
-            >
-              {profile.name}
-            </h1>
-            <p
-              style={{
-                fontSize: "42px",
-                color: colors.text,
-                margin: 0,
-                opacity: 0.9, // 視認性向上のため少し濃く
-                letterSpacing: "0.2em",
-                fontFamily: fontData ? `"${fontFamily}"` : "sans-serif",
-                textShadow: `0 0 10px ${colors.background}, 0 0 20px ${colors.background}`,
-              }}
-            >
-              Official Site
-            </p>
-          </div>
+        <div style={imageContainerStyle}>
+          {imageSrc ? <img src={imageSrc} height="630" style={{ objectFit: 'contain' }} alt="Hero" /> : null}
         </div>
       </div>
     ),
@@ -171,13 +81,13 @@ export default async function Image() {
       fonts: fontData
         ? [
             {
-              name: fontFamily,
+              name: 'Noto Serif JP',
               data: fontData,
-              style: "normal",
+              style: 'normal',
               weight: 700,
             },
           ]
-        : undefined,
+        : [],
     }
   );
 }
