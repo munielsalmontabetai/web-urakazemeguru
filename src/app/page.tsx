@@ -9,7 +9,7 @@ import { LandingPageContent } from "@/components/layout/LandingPageContent";
 
 /**
  * メインのランディングページ。
- * サーバーコンポーネントとして、配信スケジュール情報をフェッチします。
+ * サーバーコンポーネントとして、配信スケジュール情報をフェッチします
  */
 export const revalidate = 3600;
 
@@ -18,7 +18,7 @@ export default async function Home() {
   const streamingData = await getStreamingSchedule();
 
   return (
-    <main className="min-h-screen relative">
+    <main className="relative min-h-screen">
       <LandingPageContent>
         <HeroVisual />
         <Introduction />

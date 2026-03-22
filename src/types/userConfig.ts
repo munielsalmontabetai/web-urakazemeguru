@@ -31,7 +31,7 @@ export interface UserConfig {
     twitch: PlatformConfig;
   };
   site: {
-    url: string; // サイトの公開用URL
+    url?: string; // サイトの公開用URL
     title: string;
     description: string;
     themeStyle: "elegant" | "idol" | "japanese" | string;
