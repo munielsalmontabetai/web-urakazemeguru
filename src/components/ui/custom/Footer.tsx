@@ -20,7 +20,7 @@ export function Footer() {
       <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-[var(--secondary)] opacity-[0.02] blur-3xl" />
 
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-6 md:px-8">
-        {/* ロゴ / タイトル　 */}
+        {/* ロゴ / タイトル */}
         <div className="mb-8">
           <div className="relative h-12 w-[150px] overflow-hidden opacity-90 transition-opacity hover:opacity-100">
             <Image
