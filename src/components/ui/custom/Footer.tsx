@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faYoutube,
   faTwitch,
-  faXTwitter,
+  faXTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
 import { userConfig } from "@/config/userConfig";
@@ -14,15 +14,15 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[var(--background)] border-t border-[var(--primary)]/10 py-12 md:py-16 relative overflow-hidden">
+    <footer className="relative w-full overflow-hidden border-t border-[var(--primary)]/10 bg-[var(--background)] py-12 md:py-16">
       {/* 背景の微細な装飾 */}
-      <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[var(--primary)] opacity-[0.02] blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[var(--secondary)] opacity-[0.02] blur-3xl pointer-events-none" />
+      <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 rounded-full bg-[var(--primary)] opacity-[0.02] blur-3xl" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 rounded-full bg-[var(--secondary)] opacity-[0.02] blur-3xl" />
 
-      <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 flex flex-col items-center">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-6 md:px-8">
         {/* ロゴ / タイトル　 */}
         <div className="mb-8">
-          <div className="w-[150px] h-12 relative overflow-hidden opacity-90 hover:opacity-100 transition-opacity">
+          <div className="relative h-12 w-[150px] overflow-hidden opacity-90 transition-opacity hover:opacity-100">
             <Image
               src="/images/logo.png"
               alt={profile.nameEn}
@@ -33,12 +33,12 @@ export function Footer() {
         </div>
 
         {/* 主要SNSリンク */}
-        <div className="flex items-center gap-6 mb-10">
+        <div className="mb-10 flex items-center gap-6">
           <a
             href={links.youtube}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-12 h-12 rounded-full bg-[var(--primary)]/5 flex items-center justify-center text-[var(--foreground)]/60 hover:bg-[#ff0000] hover:text-white hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-sm"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--primary)]/5 text-[var(--foreground)]/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:bg-[#ff0000] hover:text-white"
             aria-label="YouTube"
           >
             <FontAwesomeIcon icon={faYoutube} className="text-xl" />
@@ -47,7 +47,7 @@ export function Footer() {
             href={links.twitch}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-12 h-12 rounded-full bg-[var(--primary)]/5 flex items-center justify-center text-[var(--foreground)]/60 hover:bg-[#9146ff] hover:text-white hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-sm"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--primary)]/5 text-[var(--foreground)]/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:bg-[#9146ff] hover:text-white"
             aria-label="Twitch"
           >
             <FontAwesomeIcon icon={faTwitch} className="text-xl" />
@@ -56,7 +56,7 @@ export function Footer() {
             href={links.x}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-12 h-12 rounded-full bg-[var(--primary)]/5 flex items-center justify-center text-[var(--foreground)]/60 hover:bg-black hover:text-white hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-sm"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--primary)]/5 text-[var(--foreground)]/60 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:bg-black hover:text-white"
             aria-label="X (Twitter)"
           >
             <FontAwesomeIcon icon={faXTwitter} className="text-xl" />
@@ -64,28 +64,11 @@ export function Footer() {
         </div>
 
         {/* コピーライトなど */}
-        <div className="text-center font-text">
-          <p className="text-[var(--foreground)]/40 text-xs tracking-widest mb-2">
+        <div className="font-text text-center">
+          <p className="mb-2 text-xs tracking-widest text-[var(--foreground)]/40">
             © {currentYear} {profile.nameEn} / {profile.name}. All rights
             reserved.
           </p>
-          <div className="flex items-center justify-center gap-4 text-[10px] text-[var(--foreground)]/30 tracking-widest mt-4">
-            <a
-              href="mailto:yuzukirana.official@gmail.com"
-              className="hover:text-[var(--primary)] transition-colors"
-            >
-              Contact
-            </a>
-            <span>|</span>
-            <a
-              href={links.litlink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[var(--primary)] transition-colors"
-            >
-              lit.link
-            </a>
-          </div>
         </div>
       </div>
     </footer>

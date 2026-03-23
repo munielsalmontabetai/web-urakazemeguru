@@ -48,14 +48,16 @@ export default function ProfilePage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative aspect-[3/4] w-full rounded-3xl overflow-hidden bg-gradient-to-tr from-[var(--primary)]/10 to-[var(--secondary)]/10 p-2 shadow-sm"
+              className="relative w-full h-[60vh] md:h-[70vh] max-h-[800px] min-h-[400px] rounded-3xl overflow-hidden bg-gradient-to-tr from-[var(--primary)]/10 to-[var(--secondary)]/10 p-2 shadow-sm select-none"
+              onContextMenu={(e) => e.preventDefault()}
             >
               <div className="w-full h-full relative rounded-2xl overflow-hidden bg-white/50 backdrop-blur-sm">
                 <Image
                   src={selectedImage}
                   alt={profile.name}
                   fill
-                  className="object-contain object-bottom drop-shadow-lg"
+                  draggable={false}
+                  className="object-contain drop-shadow-lg p-4"
                   priority
                 />
               </div>
@@ -67,7 +69,8 @@ export default function ProfilePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="flex gap-4 mt-6 overflow-x-auto p-1 scrollbar-hide"
+                className="flex gap-4 mt-6 overflow-x-auto lg:overflow-visible lg:flex-wrap p-1 scrollbar-hide select-none"
+                onContextMenu={(e) => e.preventDefault()}
               >
                 {photos.variants.map((variant, idx) => (
                   <div
@@ -79,9 +82,10 @@ export default function ProfilePage() {
                       src={variant}
                       alt={`${profile.name} variant ${idx + 1}`}
                       fill
+                      draggable={false}
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none" />
                   </div>
                 ))}
               </motion.div>
