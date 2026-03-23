@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
 import { userConfig } from "@/config/userConfig";
+import Link from "next/link";
 
 export function Footer() {
   const { links, profile } = userConfig;
@@ -23,12 +24,14 @@ export function Footer() {
         {/* ロゴ / タイトル */}
         <div className="mb-8">
           <div className="relative h-12 w-[150px] overflow-hidden opacity-90 transition-opacity hover:opacity-100">
-            <Image
-              src="/images/logo.png"
-              alt={profile.nameEn}
-              fill
-              className="object-contain"
-            />
+            <Link href="/">
+              <Image
+                src="/images/logo.png"
+                alt={profile.nameEn}
+                fill
+                className="object-contain"
+              />
+            </Link>
           </div>
         </div>
 
