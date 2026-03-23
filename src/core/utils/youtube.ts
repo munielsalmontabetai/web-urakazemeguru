@@ -107,6 +107,24 @@ export const fetchYouTubeStreams = cache(
       (videosData.items || []).forEach((item: any) => {
         // APIから返る liveBroadcastContent は 'live', 'upcoming', 'none' のいずれか
         const broadcastStatus = item.snippet?.liveBroadcastContent || "none";
+        
+        // duration を解析して秒数を取得 (例: PT1M30S)
+        const durationStr = item.contentDetails?.duration || "";
+        const match = durationStr.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+        const hours = parseInt(match?.[1] || "0", 10);
+        const minutes = parseInt(match?.[2] || "0", 10);
+        const seconds = parseInt(match?.[3] || "0", 10);
+        const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+        // カテゴリの判定 (2024年10月の仕様変更により3分(180秒)以下がショート)
+        let category: "video" | "short" | "live" = "video";
+        if (broadcastStatus === "live" || broadcastStatus === "upcoming" || item.liveStreamingDetails) {
+          category = "live";
+        } else if (totalSeconds > 0 && totalSeconds <= 181) {
+          category = "short";
+        } else {
+          category = "video";
+        }
 
         const streamItem: StreamItem = {
           id: item.id,
@@ -131,6 +149,7 @@ export const fetchYouTubeStreams = cache(
           actualStartTime:
             item.liveStreamingDetails?.actualStartTime ||
             item.snippet?.publishedAt,
+          category,
         };
 
         if (broadcastStatus === "live") {

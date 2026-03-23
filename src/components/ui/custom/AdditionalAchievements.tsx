@@ -50,7 +50,7 @@ function AchievementGroup({ group, gIdx }: { group: { title: string; items: stri
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: iIdx * 0.03 }}
-            className="group flex flex-col justify-center rounded-xl bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:shadow-md border border-[var(--primary)]/5"
+            className="flex flex-col justify-center rounded-xl bg-white/50 px-5 py-4 shadow-sm backdrop-blur-sm border border-[var(--primary)]/5"
           >
             <p className="text-sm font-medium leading-relaxed text-[var(--foreground)] md:text-base">
               {item}

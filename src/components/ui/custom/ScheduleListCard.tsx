@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutube, faTwitch } from "@fortawesome/free-brands-svg-icons";
 import { faClock, faCirclePlay } from "@fortawesome/free-solid-svg-icons";
@@ -17,13 +16,7 @@ export function ScheduleListCard({ item, delay = 0 }: ScheduleListCardProps) {
   const isArchive = item.status === "none";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
-      viewport={{ once: true, margin: "-50px" }}
-      className="group"
-    >
+    <div className="group h-full">
       <a
         href={item.url}
         target="_blank"
@@ -124,6 +117,6 @@ export function ScheduleListCard({ item, delay = 0 }: ScheduleListCardProps) {
           </div>
         </div>
       </a>
-    </motion.div>
+    </div>
   );
 }

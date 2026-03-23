@@ -57,7 +57,7 @@ function TimelineItem({ item, idx }: { item: HistoryItem; idx: number }) {
         {/* コンテンツカード */}
         <div className="mb-8 w-full md:mb-0 md:w-5/12">
           <div
-            className={`group relative rounded-2xl border border-[var(--primary)]/10 bg-white p-5 shadow-sm transition-shadow hover:shadow-md md:p-6 ${idx % 2 === 0 ? "md:text-left" : "md:text-right"}`}
+            className={`relative rounded-2xl border border-[var(--primary)]/10 bg-white p-5 shadow-sm md:p-6 ${idx % 2 === 0 ? "md:text-left" : "md:text-right"}`}
           >
             {/* 日付ラベル */}
             <div
@@ -67,7 +67,7 @@ function TimelineItem({ item, idx }: { item: HistoryItem; idx: number }) {
             </div>
 
             {/* タイトル */}
-            <h4 className="font-design text-sm leading-relaxed font-medium text-[var(--foreground)] transition-colors group-hover:text-[var(--primary)] md:text-base">
+            <h4 className="font-design text-sm leading-relaxed font-medium text-[var(--foreground)] md:text-base">
               {item.title}
             </h4>
 

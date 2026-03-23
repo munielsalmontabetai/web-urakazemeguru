@@ -8,6 +8,9 @@ export type StreamStatus = z.infer<typeof StreamStatusSchema>;
 export const PlatformSchema = z.enum(["youtube", "twitch"]);
 export type Platform = z.infer<typeof PlatformSchema>;
 
+export const StreamCategorySchema = z.enum(["video", "short", "live"]);
+export type StreamCategory = z.infer<typeof StreamCategorySchema>;
+
 // ストリーミングアイテムの共通スキーマ
 export const StreamItemSchema = z.object({
   id: z.string(),
@@ -19,6 +22,7 @@ export const StreamItemSchema = z.object({
   scheduledStartTime: z.string().optional(),
   actualStartTime: z.string().optional(),
   viewerCount: z.number().optional(),
+  category: StreamCategorySchema.optional(),
 });
 
 export type StreamItem = z.infer<typeof StreamItemSchema>;

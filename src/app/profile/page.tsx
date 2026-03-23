@@ -260,7 +260,7 @@ function DetailCard({
   value: string;
 }) {
   return (
-    <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 border border-[var(--primary)]/10 shadow-sm transition-transform hover:-translate-y-1 duration-300">
+    <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 flex items-center gap-4 border border-[var(--primary)]/10 shadow-sm">
       <div className="w-12 h-12 rounded-full bg-[var(--primary)]/10 flex items-center justify-center text-[var(--primary)] flex-shrink-0">
         <FontAwesomeIcon icon={icon} className="text-lg" />
       </div>
