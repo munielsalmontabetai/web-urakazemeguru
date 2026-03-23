@@ -79,7 +79,7 @@ export const userConfig: UserConfig = {
     // 自己紹介動画 (YouTube ID)
     introductionVideoId: "V_hhH24DWWo", // 代表的な動画
     // 表示用タグ
-    tags: ["能天使", "クールビューティー", ],
+    tags: ["能天使", "特撮オタク","ゲーム配信", ],
     // 活動履歴・実績 (タイムライン用)
     history: [
       { date: "2024.10.29", title: "YouTube初配信", category: "milestone" },
