@@ -51,13 +51,23 @@ export default function ProfilePage() {
               className="relative w-full h-[60vh] md:h-[70vh] max-h-[800px] min-h-[400px] rounded-3xl overflow-hidden bg-gradient-to-tr from-[var(--primary)]/10 to-[var(--secondary)]/10 p-2 shadow-sm select-none"
               onContextMenu={(e) => e.preventDefault()}
             >
-              <div className="w-full h-full relative rounded-2xl overflow-hidden bg-white/50 backdrop-blur-sm">
+              <div className="w-full h-full relative rounded-2xl overflow-hidden bg-[var(--background)]">
+                {/* 背面のぼかし背景 */}
+                <Image
+                  src={selectedImage}
+                  alt="background blur"
+                  fill
+                  aria-hidden="true"
+                  className="object-cover blur-2xl opacity-50 scale-110 pointer-events-none"
+                  priority
+                />
+                {/* 前面に表示するメイン画像 */}
                 <Image
                   src={selectedImage}
                   alt={profile.name}
                   fill
                   draggable={false}
-                  className="object-contain drop-shadow-lg p-4"
+                  className="object-contain drop-shadow-2xl p-4 relative z-10"
                   priority
                 />
               </div>
@@ -76,16 +86,25 @@ export default function ProfilePage() {
                   <div
                     key={idx}
                     onClick={() => setSelectedImage(variant)}
-                    className={`relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl flex-shrink-0 overflow-hidden bg-[var(--primary)]/5 border-2 transition-all cursor-pointer group shadow-sm ${selectedImage === variant ? "border-[var(--primary)]/80 shadow-md scale-105" : "border-transparent hover:border-[var(--primary)]/30"}`}
+                    className={`relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl flex-shrink-0 overflow-hidden bg-[var(--background)] border-2 transition-all cursor-pointer group shadow-sm ${selectedImage === variant ? "border-[var(--primary)]/80 shadow-md scale-105" : "border-transparent hover:border-[var(--primary)]/30"}`}
                   >
+                    {/* サムネイル背面のぼかし画像 */}
+                    <Image
+                      src={variant}
+                      alt="thumbnail background"
+                      fill
+                      aria-hidden="true"
+                      className="object-cover blur-md opacity-40 scale-125 pointer-events-none"
+                    />
+                    {/* サムネイル前面の画像 */}
                     <Image
                       src={variant}
                       alt={`${profile.name} variant ${idx + 1}`}
                       fill
                       draggable={false}
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="object-contain p-1 relative z-10 group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none z-20" />
                   </div>
                 ))}
               </motion.div>
