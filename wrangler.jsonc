@@ -32,26 +32,11 @@
   "observability": {
     "enabled": true
   },
-  "routes": [
-    {
-      "pattern": "urakazemeguru.v-streamer.jp",
-      "custom_domain": true
-    }
-  ],
-  "vars": {
-    // クライアントで扱える非機密の定数や環境変数
-    "APP_ENV": "production",
-    "NEXT_PUBLIC_SITE_URL": "urakazemeguru.v-streamer.jp"
-  },
   "kv_namespaces": [
     {
       "binding": "NEXT_INC_CACHE_KV",
       "id": "fe988e70d4de484196254517a95de15a",
       "remote": true
-    },
-    {
-      "binding": "API_CACHE_KV",
-      "id": "8a630f875ad346ddb0561cbec72b6e0b"
     }
   ]
   /**
