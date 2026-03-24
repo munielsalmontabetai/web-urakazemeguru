@@ -14,7 +14,6 @@ const baseNavItems = [
   { label: "Home", href: "/" },
   { label: "Profile", href: "/profile" },
   { label: "Schedule", href: "/schedule" },
-  { label: "History", href: "/history" },
 ];
 
 export function HeaderNav() {
@@ -25,7 +24,12 @@ export function HeaderNav() {
   // ユーザー設定からナビゲーションアイテムを動的に生成
   const navItems = [
     ...baseNavItems,
-    ...(userConfig.guideline && userConfig.guideline.enabled ? [{ label: "Guideline", href: "/guideline" }] : []),
+    ...(userConfig.profile?.history && userConfig.profile.history.length > 0
+      ? [{ label: "History", href: "/history" }]
+      : []),
+    ...(userConfig.guideline && userConfig.guideline.enabled
+      ? [{ label: "Guideline", href: "/guideline" }]
+      : []),
   ];
 
   // スクロール検知
