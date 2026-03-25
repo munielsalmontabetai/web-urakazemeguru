@@ -123,6 +123,12 @@ export const userConfig: UserConfig = {
         description: "",
       },
       {
+        label: "浦風雑貨店",
+        url: "https://urakazemeguru.booth.pm/",
+        icon: "link",
+        description: "グッズはこちら！🐟",
+      },
+      {
         label: "マシュマロ",
         url: "https://marshmallow-qa.com/muniel_salmon",
         icon: "marshmallow",
@@ -147,7 +153,7 @@ export const userConfig: UserConfig = {
   fanarts: {
     enabled: true,
     tweets: [
-      "https://x.com/muniel_salmon/status/2034576442663797072","https://x.com/muniel_salmon/status/1966842001003082222","https://x.com/Art_raimu/status/1930855330571071536","https://x.com/Shido_MagiChro/status/2023448556921909522",
+      "https://x.com/muniel_salmon/status/2034576442663797072","https://x.com/muniel_salmon/status/1966842001003082222","https://x.com/Art_raimu/status/1930855330571071536","https://x.com/Shido_MagiChro/status/2023448556921909522","https://x.com/muniel_salmon/status/2036654305013350688",
     ],
   },
 
