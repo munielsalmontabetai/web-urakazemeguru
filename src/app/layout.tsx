@@ -15,46 +15,96 @@ import { HeaderNav } from "@/components/ui/custom/HeaderNav";
 import { Footer } from "@/components/ui/custom/Footer";
 
 // すべての主要なフォントを初期化し、固有の変数名を付ける
-const fontKiwiMaru = Kiwi_Maru({ weight: ["400", "500"], preload: false, variable: "--font-kiwi" });
-const fontMPlus = M_PLUS_Rounded_1c({ weight: ["400", "500", "700"], preload: false, variable: "--font-mplus" });
-const fontPlayfair = Playfair_Display({ weight: ["400", "500", "600", "700"], subsets: ["latin"], variable: "--font-playfair" });
-const fontNotoSerif = Noto_Serif_JP({ weight: ["400", "500", "700"], preload: false, variable: "--font-noto-serif" });
-const fontNotoSans = Noto_Sans_JP({ weight: ["400", "500", "700"], preload: false, variable: "--font-noto-sans" });
-const fontFraunces = Fraunces({ weight: ["400", "500", "600", "700"], subsets: ["latin"], variable: "--font-fraunces" });
-const fontBizUDGothic = BIZ_UDGothic({ weight: ["400", "700"], subsets: ["latin"], variable: "--font-biz-udgothic" });
-const fontRoboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"], variable: "--font-roboto" });
+const fontKiwiMaru = Kiwi_Maru({
+  weight: ["400", "500"],
+  preload: false,
+  variable: "--font-kiwi"
+});
+const fontMPlus = M_PLUS_Rounded_1c({
+  weight: ["400", "500", "700"],
+  preload: false,
+  variable: "--font-mplus"
+});
+const fontPlayfair = Playfair_Display({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-playfair"
+});
+const fontNotoSerif = Noto_Serif_JP({
+  weight: ["400", "500", "700"],
+  preload: false,
+  variable: "--font-noto-serif"
+});
+const fontNotoSans = Noto_Sans_JP({
+  weight: ["400", "500", "700"],
+  preload: false,
+  variable: "--font-noto-sans"
+});
+const fontFraunces = Fraunces({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-fraunces"
+});
+const fontBizUDGothic = BIZ_UDGothic({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-biz-udgothic"
+});
+const fontRoboto = Roboto({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-roboto"
+});
 
 // userConfigでの文字列名とフォントの紐づけ
 function getFontByName(name: string | undefined, fallback: any) {
   if (!name) return fallback;
   switch (name) {
-    case "Kiwi Maru": return fontKiwiMaru;
-    case "M PLUS Rounded 1c": return fontMPlus;
-    case "Playfair Display": return fontPlayfair;
-    case "Noto Serif JP": return fontNotoSerif;
-    case "Noto Sans JP": return fontNotoSans;
-    case "Fraunces": return fontFraunces;
-    case "BIZ UDGothic": return fontBizUDGothic;
-    case "Roboto": return fontRoboto;
-    default: return fallback;
+    case "Kiwi Maru":
+      return fontKiwiMaru;
+    case "M PLUS Rounded 1c":
+      return fontMPlus;
+    case "Playfair Display":
+      return fontPlayfair;
+    case "Noto Serif JP":
+      return fontNotoSerif;
+    case "Noto Sans JP":
+      return fontNotoSans;
+    case "Fraunces":
+      return fontFraunces;
+    case "BIZ UDGothic":
+      return fontBizUDGothic;
+    case "Roboto":
+      return fontRoboto;
+    default:
+      return fallback;
   }
 }
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(userConfig.site.url || "http://localhost:3000"),
+  // 2. metadataBaseを設定することで、以下の相対パスが自動的に絶対URLに変換されます
+  metadataBase: new URL(siteUrl),
   title: userConfig.site.title,
   description: userConfig.site.description,
   openGraph: {
     title: userConfig.site.title,
     description: userConfig.site.description,
-    images: ["/images/og-image.png"],
+    // metadataBaseがあるため、これだけで「https://ドメイン/images/og-image.png」になります
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: userConfig.site.title,
     description: userConfig.site.description,
-    images: ["/images/og-image.png"],
-  },
+    images: ["/images/og-image.png"] // ここも自動で絶対パスになります
+  }
 };
 
 export default function RootLayout({
@@ -64,10 +114,18 @@ export default function RootLayout({
 }>) {
   const isElegant = userConfig.site.themeStyle === "elegant";
   const isDesigner = userConfig.site.themeStyle === "designer";
-  
+
   // デフォルトフォールバック
-  const defaultDesignFont = isDesigner ? fontFraunces : isElegant ? fontPlayfair : fontKiwiMaru;
-  const defaultTextFont = isDesigner ? fontNotoSerif : isElegant ? fontNotoSerif : fontMPlus;
+  const defaultDesignFont = isDesigner
+    ? fontFraunces
+    : isElegant
+      ? fontPlayfair
+      : fontKiwiMaru;
+  const defaultTextFont = isDesigner
+    ? fontNotoSerif
+    : isElegant
+      ? fontNotoSerif
+      : fontMPlus;
 
   const designFont = getFontByName(userConfig.fonts?.design, defaultDesignFont);
   const textFont = getFontByName(userConfig.fonts?.text, defaultTextFont);
