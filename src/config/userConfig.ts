@@ -105,7 +105,7 @@ export const userConfig: UserConfig = {
       },
       { date: "2026.02.14", title: "LEAFshadeスポンサードVtuber制度 加入", category: "milestone" },
       { date: "2026.03.28", title: "どんちゃかぶい 出演", category: "event" },
-      { date: "2026.04.25", title: "ぶいの一つ 出演", category: "event" },
+
     ],
   },
 
