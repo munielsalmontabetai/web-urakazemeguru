@@ -85,7 +85,7 @@ export const userConfig: UserConfig = {
       { date: "2024.10.29", title: "YouTube初配信", category: "milestone" },
       {
         date: "2025.05.31",
-        title: "おいらのイタリアン×LEAFshade 出演",
+        title: "おいらのイタリアン×LEAFshade コラボ・ディナーショー出演",
         category: "event",
       },
       {
@@ -104,7 +104,7 @@ export const userConfig: UserConfig = {
         category: "event",
       },
       { date: "2026.02.14", title: "LEAFshadeスポンサードVtuber制度 加入", category: "milestone" },
-      { date: "2026.03.28", title: "どんちゃかぶい 出演", category: "event" },
+      { date: "2026.03.28", title: "ライブ どんちゃかぶい 出演", category: "event" },
 
     ],
   },
@@ -120,7 +120,7 @@ export const userConfig: UserConfig = {
         label: "Lit.link",
         url: "https://lit.link/muniel8salmon",
         icon: "link",
-        description: "",
+        description: "参加させていただいた企画や歌枠リレーもまとめてます🐟",
       },
       {
         label: "浦風雑貨店",
@@ -132,7 +132,7 @@ export const userConfig: UserConfig = {
         label: "マシュマロ",
         url: "https://marshmallow-qa.com/muniel_salmon",
         icon: "marshmallow",
-        description: "",
+        description: "返信はガチャ程度の期待値",
       },
       {
         label: "オーエン配送",
