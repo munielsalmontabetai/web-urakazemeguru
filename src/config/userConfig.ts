@@ -79,7 +79,7 @@ export const userConfig: UserConfig = {
     // 自己紹介動画 (YouTube ID)
     introductionVideoId: "V_hhH24DWWo", // 代表的な動画
     // 表示用タグ
-    tags: ["能天使", "特撮オタク","ゲーム配信", ],
+    tags: ["能天使", "特撮オタク","ゲーム配信" ],
     // 活動履歴・実績 (タイムライン用)
     history: [
       { date: "2024.10.29", title: "YouTube初配信", category: "milestone" },
@@ -106,7 +106,7 @@ export const userConfig: UserConfig = {
       { date: "2026.02.14", title: "LEAFshadeスポンサードVtuber制度 加入", category: "milestone" },
       { date: "2026.03.28", title: "ライブ どんちゃかぶい 出演", category: "event" },
       { date: "2026.06.06", title: "ライブ ぶいうた祭っ！ 出演", category: "event" },
-      { date: "2026.06.07", title: "ライブ V SCREAM  出演", category: "event" },
+      { date: "2026.06.07", title: "ライブ VSCREAM 出演", category: "event" },
 
     ],
   },
