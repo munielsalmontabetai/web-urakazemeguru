@@ -29,7 +29,7 @@ export const userConfig: UserConfig = {
     url: "https://urakazemeguru.v-streamer.jp",
     title: "浦風めぐる Official Site",
     description:
-      "クールビューティーな能天使Vtuber、浦風めぐるの公式サイトです！どうぞごひいきに～！",
+      "クールビューティーな能天使Vtuber、浦風めぐるの公式サイトです。",
     // テーマの種類：'elegant' | 'idol' | 'japanese' 等（Rule.md準拠）
     themeStyle: "idol",
   },
@@ -143,7 +143,7 @@ export const userConfig: UserConfig = {
         label: "オーエン配送",
         url: "https://ouen55.com/muniel_salmon/",
         icon: "mail",
-        description: "お手紙はこちらに！",
+        description: "お手紙はこちらへ！",
       },
     ],
   },
