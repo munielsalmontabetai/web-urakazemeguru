@@ -110,7 +110,6 @@ export const userConfig: UserConfig = {
       { date: "2026.07.05", title: "ライブ ぶいあに！  出演", category: "event" },
       { date: "2026.07.12", title: "ライブ 電脳製糸祭2026  出演", category: "event" },
       { date: "2026.07.19", title: "ライブ PLATINA LOOPER  出演", category: "event" },
-},
     ],
   },
 
