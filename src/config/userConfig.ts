@@ -29,7 +29,7 @@ export const userConfig: UserConfig = {
     url: "https://urakazemeguru.v-streamer.jp",
     title: "浦風めぐる Official Site",
     description:
-      "クールビューティーな能天使Vtuber、浦風めぐるの公式サイトです。",
+      "クールビューティーな能天使Vtuber、浦風めぐるの公式サイトです。人間界を満喫中の彼女の活動情報をお届けします。",
     // テーマの種類：'elegant' | 'idol' | 'japanese' 等（Rule.md準拠）
     themeStyle: "idol",
   },
@@ -106,7 +106,7 @@ export const userConfig: UserConfig = {
       { date: "2026.02.14", title: "LEAFshadeスポンサードVtuber制度 加入", category: "milestone" },
       { date: "2026.03.28", title: "ライブ どんちゃかぶい 出演", category: "event" },
       { date: "2026.06.06", title: "ライブ ぶいうた祭っ！ 出演", category: "event" },
-      { date: "2026.06.07", title: "ライブ V SCREAM！  出演", category: "event" },
+      { date: "2026.06.07", title: "ライブ V SCREAM  出演", category: "event" },
 
     ],
   },
@@ -140,7 +140,7 @@ export const userConfig: UserConfig = {
         label: "オーエン配送",
         url: "https://ouen55.com/muniel_salmon/",
         icon: "mail",
-        description: "お手紙はこちらへ！",
+        description: "",
       },
     ],
   },
