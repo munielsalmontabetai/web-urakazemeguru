@@ -12,11 +12,15 @@ import { LandingPageContent } from "@/components/layout/LandingPageContent";
 /**
  * メインのランディングページ。
  * サーバーコンポーネントとして、配信スケジュール情報をフェッチします
+ *
+ * 動的レンダリング (force-dynamic) を採用。
+ * APIクォータは youtube.ts 内の KVキャッシュが保護するため、
+ * ページ自体は毎リクエスト実行してライブ/スケジュールを素早く反映する。
  */
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  // 配信データをサーバーサイドで取得（ISRが適用される）
+  // 配信データをサーバーサイドで取得（内部KVキャッシュで保護）
   const [streamingData, channelStats] = await Promise.all([
     getStreamingSchedule(),
     getYouTubeChannelStats(),
