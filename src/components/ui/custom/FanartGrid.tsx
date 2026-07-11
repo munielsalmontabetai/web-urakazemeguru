@@ -1,12 +1,25 @@
-import { CustomTweet as Tweet } from "@/components/ui/custom/CustomTweet";
+import { EmbeddedTweet } from "react-tweet";
 import { userConfig } from "@/config/userConfig";
 import { extractTweetId } from "@/core/utils/tweet";
+import { fetchRenderableTweet } from "@/core/utils/fetchTweet";
 import { SectionHeading } from "./SectionHeading";
 
-export function FanartGrid() {
+export async function FanartGrid() {
   const { fanarts } = userConfig;
 
-  if (!fanarts.enabled || fanarts.tweets.length === 0) {
+  // 全ツイートを並列フェッチし、取得不能（削除済み・非公開など）はスキップする。
+  // 親側でフィルタすることで、空のラッパー要素や TweetNotFound の枠を残さない。
+  const tweets = fanarts.enabled
+    ? (
+        await Promise.all(
+          fanarts.tweets.map((urlOrId) =>
+            fetchRenderableTweet(extractTweetId(urlOrId))
+          )
+        )
+      ).filter((tweet) => tweet !== null)
+    : [];
+
+  if (tweets.length === 0) {
     return (
       <section
         id="fanart"
@@ -34,9 +47,13 @@ export function FanartGrid() {
       <div className="max-w-6xl mx-auto">
         <SectionHeading>Fanart</SectionHeading>
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-          {fanarts.tweets.map((urlOrId) => (
-            <div key={urlOrId} className="w-full break-inside-avoid h-fit" data-theme="light">
-              <Tweet id={extractTweetId(urlOrId)} />
+          {tweets.map((tweet) => (
+            <div
+              key={tweet.id_str}
+              className="w-full break-inside-avoid h-fit"
+              data-theme="light"
+            >
+              <EmbeddedTweet tweet={tweet} />
             </div>
           ))}
         </div>
