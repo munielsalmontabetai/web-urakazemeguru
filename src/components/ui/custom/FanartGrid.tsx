@@ -23,11 +23,11 @@ export async function FanartGrid() {
     return (
       <section
         id="fanart"
-        className="relative w-full py-20 px-4 bg-[var(--background)]"
+        className="relative w-full bg-[var(--background)] px-4 py-20"
       >
-        <div className="max-w-5xl mx-auto">
+        <div className="mx-auto max-w-5xl">
           <SectionHeading>Fanart</SectionHeading>
-          <p className="text-center text-[var(--foreground)]/40 font-text tracking-wider">
+          <p className="font-text text-center tracking-wider text-[var(--foreground)]/40">
             ファンアートを募集中です！
             <br />
             <span className="text-sm">
@@ -42,15 +42,15 @@ export async function FanartGrid() {
   return (
     <section
       id="fanart"
-      className="relative w-full py-20 md:py-32 px-4 bg-[var(--background)]"
+      className="relative w-full bg-[var(--background)] px-4 py-20 md:py-32"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="mx-auto max-w-6xl">
         <SectionHeading>Fanart</SectionHeading>
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+        <div className="columns-1 gap-6 space-y-6 sm:columns-2 lg:columns-3">
           {tweets.map((tweet) => (
             <div
               key={tweet.id_str}
-              className="w-full break-inside-avoid h-fit"
+              className="h-fit w-full break-inside-avoid"
               data-theme="light"
             >
               <EmbeddedTweet tweet={tweet} />

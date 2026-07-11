@@ -11,11 +11,12 @@ export async function getStreamingSchedule(): Promise<StreamScheduleResult> {
     fetchTwitchStream(),
   ]);
 
-  // 現在配信中のもの（Twitchを優先、なければYouTube）
-  const activeStream = twitch || youtube.live[0];
+  // 現在配信中のもの。同時配信（Twitch + YouTube、YouTubeで複数枠など）でも
+  // 取りこぼさないよう全件を保持する。表示順はTwitchを優先する。
+  const activeStreams = [...(twitch ? [twitch] : []), ...youtube.live];
 
   return {
-    activeStream,
+    activeStreams,
     upcomingStreams: youtube.upcoming,
     recentArchives: youtube.archives,
     updatedAt: new Date().toISOString(),

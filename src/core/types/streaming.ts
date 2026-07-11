@@ -29,7 +29,9 @@ export type StreamItem = z.infer<typeof StreamItemSchema>;
 
 // 配信スケジュール全体の返り値
 export const StreamScheduleResultSchema = z.object({
-  activeStream: StreamItemSchema.optional(), // 現在配信中のもの（もしあれば）
+  // 現在配信中のもの。同時配信（Twitch + YouTube、YouTubeで複数枠など）を
+  // 取りこぼさないよう配列で保持する。配信していなければ空配列。
+  activeStreams: z.array(StreamItemSchema),
   upcomingStreams: z.array(StreamItemSchema), // 今後の予定
   recentArchives: z.array(StreamItemSchema), // 最近のアーカイブ
   updatedAt: z.string(),

@@ -14,10 +14,8 @@ export function ScheduleTimeline({ data }: { data: StreamScheduleResult }) {
 
   // Live & Upcoming: 進行中の配信と、今後の配信
   const upcomingItems = useMemo(() => {
-    const items: StreamItem[] = [];
-    if (data.activeStream) {
-      items.push(data.activeStream);
-    }
+    // 配信中は同時配信も含めて全件を先頭に並べる
+    const items: StreamItem[] = [...data.activeStreams];
     // ensure sorted by time nearest to farthest
     const sortedUpcoming = [...data.upcomingStreams].sort((a, b) => {
       const timeA = a.scheduledStartTime

@@ -75,10 +75,13 @@ export const fetchYouTubeStreams = cache(
       ])) as [any, any, any];
 
       // 3. 全ての結果から Video ID を抽出し、Setで重複を排除
+      // videos.list は一度に50件までのため後段で slice(0, 50) するが、
+      // アップロード動画一覧だけで50件に達しうる。配信中・配信予定を末尾に置くと
+      // 切り捨てられて表示から消えるため、先にSetへ入れて必ず残るようにする。
       const allVideoIds = new Set<string>([
-        ...(playlistData.items || []).map((i: any) => i.snippet?.resourceId?.videoId).filter(Boolean),
         ...(liveData.items || []).map((i: any) => i.id?.videoId).filter(Boolean),
         ...(upcomingData.items || []).map((i: any) => i.id?.videoId).filter(Boolean),
+        ...(playlistData.items || []).map((i: any) => i.snippet?.resourceId?.videoId).filter(Boolean),
       ]);
 
       const videoIdsString = Array.from(allVideoIds).slice(0, 50).join(",");

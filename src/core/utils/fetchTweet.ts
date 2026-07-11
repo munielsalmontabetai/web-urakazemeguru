@@ -43,7 +43,7 @@ async function fetchRawTweet(id: string): Promise<Tweet | undefined> {
       "tfw_legacy_timeline_sunset:true",
       "tfw_show_gov_verified_badge:on",
       "tfw_show_business_affiliate_badge:on",
-      "tfw_tweet_edit_frontend:on",
+      "tfw_tweet_edit_frontend:on"
     ].join(";")
   );
   url.searchParams.set("token", getToken(id));
@@ -53,10 +53,10 @@ async function fetchRawTweet(id: string): Promise<Tweet | undefined> {
       headers: {
         // CloudflareのIPブロックを回避するGooglebot偽装
         "User-Agent":
-          "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+          "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
       },
       // ISRを利用してキャッシュ（一定期間更新がない限り保存）
-      next: { revalidate: 3600 },
+      next: { revalidate: 3600 }
     });
 
     if (res.ok) {
@@ -66,7 +66,9 @@ async function fetchRawTweet(id: string): Promise<Tweet | undefined> {
       console.error(`[fetchTweet] Tweet not found: ${id}`);
       return undefined;
     }
-    console.error(`[fetchTweet] Failed to fetch tweet ${id}: ${res.statusText}`);
+    console.error(
+      `[fetchTweet] Failed to fetch tweet ${id}: ${res.statusText}`
+    );
     return undefined;
   } catch (err) {
     console.error(`[fetchTweet] Fetch error for tweet ${id}:`, err);
@@ -97,7 +99,7 @@ function normalizeEntities(
     hashtags: Array.isArray(e.hashtags) ? e.hashtags : [],
     user_mentions: Array.isArray(e.user_mentions) ? e.user_mentions : [],
     urls: Array.isArray(e.urls) ? e.urls : [],
-    symbols: Array.isArray(e.symbols) ? e.symbols : [],
+    symbols: Array.isArray(e.symbols) ? e.symbols : []
   } as Tweet["entities"];
 }
 
@@ -123,7 +125,7 @@ function prepareTweet(tweet: Tweet | undefined): Tweet | null {
 
   const prepared: Tweet = {
     ...tweet,
-    entities: normalizeEntities(tweet.entities),
+    entities: normalizeEntities(tweet.entities)
   };
 
   // 引用ツイートも getEntities を通る。描画可能なら正規化し、不正なら安全に取り除く。
@@ -131,7 +133,7 @@ function prepareTweet(tweet: Tweet | undefined): Tweet | null {
     prepared.quoted_tweet = isRenderableBase(tweet.quoted_tweet)
       ? {
           ...tweet.quoted_tweet,
-          entities: normalizeEntities(tweet.quoted_tweet.entities),
+          entities: normalizeEntities(tweet.quoted_tweet.entities)
         }
       : undefined;
   }

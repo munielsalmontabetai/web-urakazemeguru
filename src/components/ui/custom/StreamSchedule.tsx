@@ -22,7 +22,7 @@ export function StreamSchedule({
   const [filterCategory, setFilterCategory] = useState<FilterCategory>("all");
 
   const hasUpcomingOrActive =
-    !!data.activeStream || data.upcomingStreams.length > 0;
+    data.activeStreams.length > 0 || data.upcomingStreams.length > 0;
 
   const availableCategories = useMemo(() => {
     const cats = new Set(data.recentArchives.map((item) => item.category));
@@ -95,79 +95,16 @@ export function StreamSchedule({
         )}
 
         <div className={`space-y-12 md:space-y-16 mt-8 ${!hasUpcomingOrActive ? "min-h-[850px] sm:min-h-[600px] lg:min-h-[450px]" : ""}`}>
-          {/* 現在配信中エリア */}
-          {data.activeStream ? (
-            <div className="flex flex-col items-center">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-                viewport={{ once: true, margin: "-80px" }}
-                className="w-full"
-              >
-                {/* Introductionの動画エリアに合わせたデザイン */}
-                <div className="group relative overflow-hidden rounded-2xl border border-[var(--primary)]/20 bg-white shadow-xl">
-                  {/* 装飾的な角のアクセント */}
-                  <div className="pointer-events-none absolute top-0 left-0 z-20 h-8 w-8 rounded-tl-2xl border-t-2 border-l-2 border-[var(--primary)]/30 transition-transform duration-500 group-hover:scale-110" />
-                  <div className="pointer-events-none absolute right-0 bottom-0 z-20 h-8 w-8 rounded-br-2xl border-r-2 border-b-2 border-[var(--primary)]/30 transition-transform duration-500 group-hover:scale-110" />
-
-                  <div className="absolute top-6 left-6 z-20 flex items-center gap-2">
-                    <span className="relative flex h-3 w-3">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-                      <span className="relative inline-flex h-3 w-3 rounded-full bg-red-500"></span>
-                    </span>
-                    <span className="rounded-full bg-red-500 px-3 py-1 text-[10px] font-bold tracking-[0.2em] text-white uppercase shadow-md shadow-red-500/20">
-                      Live Now
-                    </span>
-                  </div>
-
-                  <a
-                    href={data.activeStream.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                  >
-                    <div className="flex flex-col md:flex-row">
-                      {/* サムネイル */}
-                      <div className="relative aspect-video overflow-hidden bg-black/5 md:w-3/5">
-                        <img
-                          src={data.activeStream.thumbnailUrl}
-                          alt={data.activeStream.title}
-                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                      </div>
-                      {/* 情報 */}
-                      <div className="flex flex-col justify-center border-t border-[var(--primary)]/10 bg-white p-8 md:w-2/5 md:border-t-0 md:border-l md:p-10">
-                        <div className="mb-4 flex items-center gap-3 text-[10px] font-bold tracking-[0.2em] text-[var(--foreground)]/50 uppercase">
-                          <FontAwesomeIcon
-                            icon={
-                              data.activeStream.platform === "youtube"
-                                ? faYoutube
-                                : faTwitch
-                            }
-                            className="text-sm text-[var(--primary)]"
-                          />
-                          <span>{data.activeStream.platform} Streaming</span>
-                        </div>
-                        <h3 className="font-design mb-8 line-clamp-3 text-2xl leading-tight font-medium text-[var(--foreground)] md:text-3xl">
-                          {data.activeStream.title}
-                        </h3>
-                        <div className="mt-auto">
-                          {/* Buttonらしいデザイン */}
-                          <span className="inline-flex items-center gap-3 rounded-xl bg-[var(--primary)] px-8 py-3 text-xs font-bold tracking-widest text-white shadow-[var(--primary)]/20 shadow-md transition-colors hover:bg-[var(--primary)]/90">
-                            WATCH NOW
-                            <FontAwesomeIcon
-                              icon={faExternalLinkAlt}
-                              className="text-[10px] opacity-80"
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </motion.div>
+          {/* 現在配信中エリア（同時配信時は全件を並べる） */}
+          {data.activeStreams.length > 0 ? (
+            <div className="flex flex-col items-center gap-8 md:gap-10">
+              {data.activeStreams.map((stream, idx) => (
+                <LiveHeroCard
+                  key={stream.id}
+                  item={stream}
+                  delay={0.1 + idx * 0.1}
+                />
+              ))}
             </div>
           ) : data.upcomingStreams.length > 0 ? (
             /* 配信予定がある場合の見出し */
@@ -216,6 +153,78 @@ export function StreamSchedule({
         </div>
       </div>
     </section>
+  );
+}
+
+// 配信中の大きめカード。同時配信のときは縦に並べて全件表示する。
+function LiveHeroCard({ item, delay }: { item: StreamItem; delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay, ease: "easeOut" }}
+      viewport={{ once: true, margin: "-80px" }}
+      className="w-full"
+    >
+      {/* Introductionの動画エリアに合わせたデザイン */}
+      <div className="group relative overflow-hidden rounded-2xl border border-[var(--primary)]/20 bg-white shadow-xl">
+        {/* 装飾的な角のアクセント */}
+        <div className="pointer-events-none absolute top-0 left-0 z-20 h-8 w-8 rounded-tl-2xl border-t-2 border-l-2 border-[var(--primary)]/30 transition-transform duration-500 group-hover:scale-110" />
+        <div className="pointer-events-none absolute right-0 bottom-0 z-20 h-8 w-8 rounded-br-2xl border-r-2 border-b-2 border-[var(--primary)]/30 transition-transform duration-500 group-hover:scale-110" />
+
+        <div className="absolute top-6 left-6 z-20 flex items-center gap-2">
+          <span className="relative flex h-3 w-3">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+            <span className="relative inline-flex h-3 w-3 rounded-full bg-red-500"></span>
+          </span>
+          <span className="rounded-full bg-red-500 px-3 py-1 text-[10px] font-bold tracking-[0.2em] text-white uppercase shadow-md shadow-red-500/20">
+            Live Now
+          </span>
+        </div>
+
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block"
+        >
+          <div className="flex flex-col md:flex-row">
+            {/* サムネイル */}
+            <div className="relative aspect-video overflow-hidden bg-black/5 md:w-3/5">
+              <img
+                src={item.thumbnailUrl}
+                alt={item.title}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            </div>
+            {/* 情報 */}
+            <div className="flex flex-col justify-center border-t border-[var(--primary)]/10 bg-white p-8 md:w-2/5 md:border-t-0 md:border-l md:p-10">
+              <div className="mb-4 flex items-center gap-3 text-[10px] font-bold tracking-[0.2em] text-[var(--foreground)]/50 uppercase">
+                <FontAwesomeIcon
+                  icon={item.platform === "youtube" ? faYoutube : faTwitch}
+                  className="text-sm text-[var(--primary)]"
+                />
+                <span>{item.platform} Streaming</span>
+              </div>
+              <h3 className="font-design mb-8 line-clamp-3 text-2xl leading-tight font-medium text-[var(--foreground)] md:text-3xl">
+                {item.title}
+              </h3>
+              <div className="mt-auto">
+                {/* Buttonらしいデザイン */}
+                <span className="inline-flex items-center gap-3 rounded-xl bg-[var(--primary)] px-8 py-3 text-xs font-bold tracking-widest text-white shadow-[var(--primary)]/20 shadow-md transition-colors hover:bg-[var(--primary)]/90">
+                  WATCH NOW
+                  <FontAwesomeIcon
+                    icon={faExternalLinkAlt}
+                    className="text-[10px] opacity-80"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </motion.div>
   );
 }
 

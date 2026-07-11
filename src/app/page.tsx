@@ -22,10 +22,10 @@ export const dynamic = "force-dynamic";
 
 // 取得失敗時に全画面エラーへ落とさないための安全なフォールバック
 const EMPTY_SCHEDULE: StreamScheduleResult = {
-  activeStream: undefined,
+  activeStreams: [],
   upcomingStreams: [],
   recentArchives: [],
-  updatedAt: new Date(0).toISOString(),
+  updatedAt: new Date(0).toISOString()
 };
 
 export default async function Home() {
@@ -33,7 +33,7 @@ export default async function Home() {
   // 個別に握りつぶし、片方が失敗してもページ全体は描画する
   const [streamingResult, channelResult] = await Promise.allSettled([
     getStreamingSchedule(),
-    getYouTubeChannelStats(),
+    getYouTubeChannelStats()
   ]);
 
   const streamingData =
