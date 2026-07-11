@@ -8,6 +8,7 @@ import { StreamSchedule } from "@/components/ui/custom/StreamSchedule";
 import { getStreamingSchedule } from "@/core/utils/streamingService";
 import { getYouTubeChannelStats } from "@/core/utils/youtube";
 import { LandingPageContent } from "@/components/layout/LandingPageContent";
+import { StreamScheduleResult } from "@/core/types/streaming";
 
 /**
  * メインのランディングページ。
@@ -19,12 +20,28 @@ import { LandingPageContent } from "@/components/layout/LandingPageContent";
  */
 export const dynamic = "force-dynamic";
 
+// 取得失敗時に全画面エラーへ落とさないための安全なフォールバック
+const EMPTY_SCHEDULE: StreamScheduleResult = {
+  activeStream: undefined,
+  upcomingStreams: [],
+  recentArchives: [],
+  updatedAt: new Date(0).toISOString(),
+};
+
 export default async function Home() {
   // 配信データをサーバーサイドで取得（内部KVキャッシュで保護）
-  const [streamingData, channelStats] = await Promise.all([
+  // 個別に握りつぶし、片方が失敗してもページ全体は描画する
+  const [streamingResult, channelResult] = await Promise.allSettled([
     getStreamingSchedule(),
     getYouTubeChannelStats(),
   ]);
+
+  const streamingData =
+    streamingResult.status === "fulfilled"
+      ? streamingResult.value
+      : EMPTY_SCHEDULE;
+  const channelStats =
+    channelResult.status === "fulfilled" ? channelResult.value : null;
 
   return (
     <main className="relative min-h-screen">
